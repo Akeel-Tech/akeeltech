@@ -209,6 +209,8 @@ nav {
 .hero-photo-wrap {
   display: flex; justify-content: center; align-items: center;
   position: relative;
+  z-index: 2;
+  padding: 30px 40px;
 }
 .photo-ring {
   width: 340px; height: 340px;
@@ -274,9 +276,10 @@ nav {
   display: flex; align-items: center; gap: 8px;
   box-shadow: 0 8px 32px rgba(0,0,0,0.3);
   animation: badgeFloat 4s ease-in-out infinite;
+  z-index: 10;
 }
-.badge-floating.b1 { top: 20px; left: -20px; animation-delay: 0s; }
-.badge-floating.b2 { bottom: 30px; right: -30px; animation-delay: -2s; }
+.badge-floating.b1 { top: 20px; left: -30px; animation-delay: 0s; border-color: rgba(16,185,129,0.35); box-shadow: 0 8px 32px rgba(16,185,129,0.15), 0 4px 16px rgba(0,0,0,0.4); }
+.badge-floating.b2 { bottom: 30px; right: -30px; animation-delay: -2s; border-color: rgba(245,158,11,0.35); box-shadow: 0 8px 32px rgba(245,158,11,0.15), 0 4px 16px rgba(0,0,0,0.4); }
 .badge-floating .dot { width: 8px; height: 8px; border-radius: 50%; }
 .dot-green { background: var(--green); }
 .dot-gold { background: var(--gold); }
@@ -662,6 +665,84 @@ footer {
 .reveal-delay-3 { transition-delay: 0.3s; }
 .reveal-delay-4 { transition-delay: 0.4s; }
 
+/* ── EXPERIENCE ── */
+.exp-timeline { position: relative; margin-top: 3rem; }
+.exp-timeline::before {
+  content: '';
+  position: absolute; left: 24px; top: 0; bottom: 0; width: 2px;
+  background: linear-gradient(to bottom, var(--blue), var(--cyan), transparent);
+  border-radius: 2px;
+}
+.exp-item {
+  display: flex; gap: 2rem;
+  margin-bottom: 2.5rem;
+  position: relative;
+}
+.exp-dot-wrap {
+  display: flex; flex-direction: column; align-items: center;
+  flex-shrink: 0;
+}
+.exp-dot {
+  width: 50px; height: 50px; border-radius: 14px;
+  background: rgba(37,99,235,0.12);
+  border: 2px solid rgba(37,99,235,0.3);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; color: var(--blue-light);
+  flex-shrink: 0;
+  position: relative; z-index: 1;
+  transition: background 0.3s, border-color 0.3s;
+}
+.exp-item:hover .exp-dot { background: rgba(37,99,235,0.22); border-color: var(--blue-light); }
+.exp-content {
+  flex: 1;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px 32px;
+  transition: border-color 0.3s, transform 0.3s;
+  position: relative; overflow: hidden;
+}
+.exp-content::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: var(--gradient);
+  transform: scaleX(0); transform-origin: left;
+  transition: transform 0.4s ease;
+}
+.exp-item:hover .exp-content { border-color: rgba(37,99,235,0.4); transform: translateX(4px); }
+.exp-item:hover .exp-content::before { transform: scaleX(1); }
+.exp-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; flex-wrap: wrap; margin-bottom: 8px; }
+.exp-role { font-size: 18px; font-weight: 700; color: var(--text); }
+.exp-period {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; color: var(--cyan);
+  background: rgba(6,182,212,0.1);
+  border: 1px solid rgba(6,182,212,0.25);
+  padding: 4px 10px; border-radius: 6px;
+  white-space: nowrap; flex-shrink: 0;
+}
+.exp-org {
+  font-size: 14px; font-weight: 600; color: var(--blue-light);
+  margin-bottom: 4px;
+}
+.exp-location { font-size: 12px; color: var(--text3); margin-bottom: 1.25rem; display: flex; align-items: center; gap: 6px; }
+.exp-duties { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.exp-duties li {
+  font-size: 13.5px; color: var(--text2);
+  display: flex; align-items: flex-start; gap: 10px; line-height: 1.6;
+}
+.exp-duties li::before { content: '▸'; color: var(--cyan); font-size: 10px; margin-top: 4px; flex-shrink: 0; }
+.exp-current-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 11px; font-weight: 600;
+  color: var(--green);
+  background: rgba(16,185,129,0.1);
+  border: 1px solid rgba(16,185,129,0.25);
+  padding: 3px 10px; border-radius: 100px;
+  margin-bottom: 12px;
+}
+.exp-current-badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: pulse 2s infinite; }
+
 /* ── MOBILE NAV ── */
 .mobile-nav {
   display: none;
@@ -684,16 +765,17 @@ footer {
 
 /* ── RESPONSIVE ── */
 @media (max-width: 1024px) {
-  #home { grid-template-columns: 1fr; text-align: center; padding: 7rem 2rem 4rem; }
+  #home { grid-template-columns: 1fr; text-align: center; padding: 7rem 2rem 4rem; gap: 3rem; }
   .hero-desc { margin: 0 auto 2rem; }
   .hero-btns { justify-content: center; }
   .hero-photo-wrap { order: -1; }
   .about-grid { grid-template-columns: 1fr; gap: 3rem; }
   .about-img-wrap { max-width: 360px; margin: 0 auto; }
   .skills-grid { grid-template-columns: 1fr 1fr; }
-  .labs-grid { grid-template-columns: 1fr; }
+  .labs-grid { grid-template-columns: 1fr 1fr; }
   .stats-grid { grid-template-columns: 1fr 1fr; }
-  .footer-inner { grid-template-columns: 1fr; }
+  .footer-inner { grid-template-columns: 1fr; gap: 1.5rem; }
+  .exp-timeline::before { left: 24px; }
 }
 @media (max-width: 768px) {
   nav { padding: 0 1.5rem; }
@@ -703,13 +785,39 @@ footer {
   .section-full, .cta-inner { padding: 4rem 1.5rem; }
   .stats-grid { padding: 2rem 1.5rem; grid-template-columns: 1fr 1fr; }
   .skills-grid { grid-template-columns: 1fr; }
+  .labs-grid { grid-template-columns: 1fr; }
   .certs-grid { grid-template-columns: 1fr; }
   .photo-ring { width: 260px; height: 260px; }
   .objective-wrap { padding: 2.5rem 1.5rem; }
   footer { padding: 2rem 1.5rem; }
   .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
-  .badge-floating.b1 { left: 0; }
-  .badge-floating.b2 { right: 0; }
+  .badge-floating.b1 { left: -10px; top: 10px; }
+  .badge-floating.b2 { right: -10px; bottom: 20px; }
+  .exp-item { gap: 1rem; }
+  .exp-content { padding: 20px; }
+  .exp-role { font-size: 16px; }
+  .exp-header { flex-direction: column; gap: 6px; }
+}
+@media (max-width: 480px) {
+  #home { padding: 6rem 1.25rem 3rem; }
+  .hero-name { font-size: 36px; }
+  .hero-subtitle { font-size: 17px; }
+  .hero-btns { flex-direction: column; align-items: center; }
+  .btn { width: 100%; justify-content: center; }
+  .photo-ring { width: 220px; height: 220px; }
+  .badge-floating { padding: 8px 12px; }
+  .badge-floating.b1 { left: -5px; top: 10px; }
+  .badge-floating.b2 { right: -5px; bottom: 20px; }  .stats-grid { grid-template-columns: 1fr 1fr; gap: 1rem; padding: 1.5rem 1.25rem; }
+  .stat-card { padding: 1.25rem 1rem; }
+  .stat-num { font-size: 28px; }
+  .section, .skills-inner, .certs-inner { padding: 3rem 1.25rem; }
+  .cta-btns { flex-direction: column; align-items: center; }
+  .cta-inner { padding: 3rem 1.25rem; }
+  footer { padding: 2rem 1.25rem; }
+  .exp-timeline::before { left: 20px; }
+  .exp-dot { width: 42px; height: 42px; font-size: 16px; }
+  .exp-content { padding: 16px; }
+  .exp-role { font-size: 15px; }
 }
 </style>
 </head>
@@ -725,6 +833,7 @@ footer {
     <li><a href="#home">Home</a></li>
     <li><a href="#about">About</a></li>
     <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
     <li><a href="#labs">Labs</a></li>
     <li><a href="#certifications">Certifications</a></li>
     <li><a href="#contact" class="nav-cta">Contact Me</a></li>
@@ -737,6 +846,7 @@ footer {
   <a href="#home" onclick="closeNav()">Home</a>
   <a href="#about" onclick="closeNav()">About</a>
   <a href="#skills" onclick="closeNav()">Skills</a>
+  <a href="#experience" onclick="closeNav()">Experience</a>
   <a href="#labs" onclick="closeNav()">Labs</a>
   <a href="#certifications" onclick="closeNav()">Certifications</a>
   <a href="#contact" onclick="closeNav()">Contact Me</a>
@@ -765,8 +875,8 @@ footer {
     <div class="badge-floating b1">
       <div class="dot dot-green"></div>
       <div>
-        <div style="font-size:13px;font-weight:700;">9 Certifications</div>
-        <div style="font-size:11px;color:var(--text3);">Verified on Credly</div>
+        <div style="font-size:13px;font-weight:700;color:var(--text);">9 Certifications</div>
+        <div style="font-size:11px;color:var(--green);font-weight:600;">✓ Verified on Credly</div>
       </div>
     </div>
     <div class="photo-ring" >
@@ -992,6 +1102,9 @@ footer {
         <li>Configured trunk links between switches</li>
         <li>Tested inter-VLAN communication</li>
       </ul>
+      <div style="margin-top:1.5rem;">
+        <a href="lab01.html" class="btn btn-outline" style="font-size:12px;padding:9px 18px;gap:6px;"><i class="fas fa-external-link-alt"></i> View Lab 01</a>
+      </div>
     </div>
     <div class="lab-card reveal reveal-delay-1">
       <div class="lab-num">LAB — 02</div>
@@ -1009,6 +1122,9 @@ footer {
         <li>Verified connectivity with ping and traceroute</li>
         <li>Troubleshot routing table mismatches</li>
       </ul>
+      <div style="margin-top:1.5rem;">
+        <a href="lab02.html" class="btn btn-outline" style="font-size:12px;padding:9px 18px;gap:6px;"><i class="fas fa-external-link-alt"></i> View Lab 02</a>
+      </div>
     </div>
     <div class="lab-card reveal reveal-delay-2">
       <div class="lab-num">LAB — 03</div>
@@ -1026,12 +1142,72 @@ footer {
         <li>Tested automatic IP assignment on clients</li>
         <li>Verified lease allocation in server logs</li>
       </ul>
+      <div style="margin-top:1.5rem;">
+        <a href="lab03.html" class="btn btn-outline" style="font-size:12px;padding:9px 18px;gap:6px;"><i class="fas fa-external-link-alt"></i> View Lab 03</a>
+      </div>
     </div>
   </div>
   <div class="labs-cta reveal">
     <a href="https://www.linkedin.com/in/jmakeel" target="_blank" class="btn btn-outline" style="margin-top:1rem;">
       <i class="fab fa-linkedin"></i> View More on LinkedIn
     </a>
+  </div>
+</div>
+
+<!-- ── EXPERIENCE ── -->
+<div class="section" id="experience">
+  <div class="sec-eyebrow reveal">Work History</div>
+  <h2 class="sec-title reveal">My <span>Experience</span></h2>
+  <p class="sec-desc reveal">3+ years of hands-on experience in IT support, technical training, and system administration at NIT Campus, Sri Lanka.</p>
+  <div class="exp-timeline">
+
+    <!-- Current Role -->
+    <div class="exp-item reveal">
+      <div class="exp-dot-wrap">
+        <div class="exp-dot"><i class="fas fa-headset"></i></div>
+      </div>
+      <div class="exp-content">
+        <div class="exp-current-badge">Current Position</div>
+        <div class="exp-header">
+          <div class="exp-role">Technical Assistant</div>
+          <div class="exp-period">Nov 2025 — Present</div>
+        </div>
+        <div class="exp-org">NIT Campus</div>
+        <div class="exp-location"><i class="fas fa-map-marker-alt" style="color:var(--blue-light);font-size:11px;"></i> Polonnaruwa District, Sri Lanka</div>
+        <ul class="exp-duties">
+          <li>Provide technical support for computer systems, hardware, and software across the campus environment.</li>
+          <li>Assist in troubleshooting network and system-related issues for staff and students.</li>
+          <li>Support instructors and students during practical IT training sessions.</li>
+          <li>Maintain, update, and service computer lab equipment and operating systems.</li>
+          <li>Install and configure required software for training and administrative purposes.</li>
+          <li>Ensure smooth and reliable operation of all IT resources in the training environment.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Previous Role -->
+    <div class="exp-item reveal reveal-delay-1">
+      <div class="exp-dot-wrap">
+        <div class="exp-dot" style="background:rgba(6,182,212,0.1);border-color:rgba(6,182,212,0.3);color:var(--cyan);"><i class="fas fa-chalkboard-teacher"></i></div>
+      </div>
+      <div class="exp-content">
+        <div class="exp-header">
+          <div class="exp-role">Training Instructor</div>
+          <div class="exp-period">Feb 2023 — Oct 2025</div>
+        </div>
+        <div class="exp-org">NIT Campus</div>
+        <div class="exp-location"><i class="fas fa-map-marker-alt" style="color:var(--blue-light);font-size:11px;"></i> Polonnaruwa District, Sri Lanka · <span style="font-style:italic;">2 years 9 months</span></div>
+        <ul class="exp-duties">
+          <li>Delivered the Computer Application Assistant curriculum, guiding students through essential computer operations and software applications.</li>
+          <li>Taught practical computer skills including MS Office, Canva, and data entry techniques.</li>
+          <li>Assisted students with IT troubleshooting, problem-solving, and real-world scenario exercises.</li>
+          <li>Fostered an interactive and supportive classroom learning environment for 100+ students.</li>
+          <li>Collaborated with senior instructors to continuously improve teaching methods and training materials.</li>
+          <li>Received the <strong>Best of Campus Staff Award 2024</strong> in recognition of outstanding contributions.</li>
+        </ul>
+      </div>
+    </div>
+
   </div>
 </div>
 
